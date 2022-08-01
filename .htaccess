@@ -1,0 +1,13 @@
+# script that will store invalid login attempts
+ErrorDocument 401 /logging.php
+
+AuthName "My Password Protected Site"
+AuthUserFile /.htpasswd
+AuthType Basic
+Require valid-user
+
+# Set REMOTE_USER env variable on 401 ErrorDocument
+RewriteEngine On
+RewriteBase /
+RewriteCond %{ENV:REDIRECT_STATUS} ^401$
+RewriteRule .* - [E=REMOTE_USER:%{ENV:REDIRECT_REMOTE_USER}]
